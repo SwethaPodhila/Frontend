@@ -147,7 +147,8 @@ function Profile() {
     const result = await res.json();
     alert(result.message);
     if (res.ok) {
-      navigate(`/dashboard/${id}`);
+       navigate(`/user-dashboard/${id}`);
+      //navigate(`/user-dashboard/${data.user.id}`);
     }
   };
 

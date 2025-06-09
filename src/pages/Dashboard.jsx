@@ -1,7 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Dashboard() {
+    <Header />
     const { id } = useParams();
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
@@ -19,6 +22,7 @@ function Dashboard() {
         state: '',
         mainCategory: '',
         subCategory: '',
+        productDetails: '',
     });
     const [logoFile, setLogoFile] = useState(null);
     const modalRef = useRef(null);
@@ -45,6 +49,7 @@ function Dashboard() {
                         state: userData.state || '',
                         mainCategory: userData.mainCategory || '',
                         subCategory: userData.subCategory || '',
+                        productDetails: userData.productDetails || '',
                     });
                 }
 
@@ -84,7 +89,6 @@ function Dashboard() {
                 setSubCategories([]);
             }
         };
-
         fetchSubCategories();
     }, [formData.mainCategory, categories]);
 
@@ -155,210 +159,229 @@ function Dashboard() {
     }
 
     return (
-        <div className="container mt-5">
-            <div className="card shadow p-4 mb-4">
-                <h2 className="mb-3 text-center">Welcome {user.fullName}</h2>
-                <div className="row">
-                    <div className="col-md-6 mb-3">
-                        <p><strong>Email:</strong> {user.email}</p>
-                    </div>
-                    <div className="col-md-6 mb-3">
-                        <p><strong>Mobile:</strong> {user.mobile}</p>
-                    </div>
-                </div>
-                <div className="text-center">
-                    <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-                        Update Profile
-                    </button>
-                </div>
-            </div>
+        <>
+            <Header />
 
-            {user.isProfileComplete ? (
-                <>
-                    <div className="card shadow p-4 mb-4">
-                        <h4 className="mb-3">Company Details</h4>
-                        <div className="row">
-                            <div className="col-md-6 mb-2">
-                                <p><strong>Company:</strong> {user.companyName}</p>
-                                <p><strong>City:</strong> {user.city}</p>
-                                <p><strong>Pin Code:</strong> {user.pinCode}</p>
-                            </div>
-                            <div className="col-md-6 mb-2">
-                                <p><strong>State:</strong> {user.state}</p>
-                                <p><strong>Main Category:</strong> {user.mainCategory}</p>
-                                <p><strong>Sub Category:</strong> {user.subCategory}</p>
-                            </div>
+            <div className="container mt-5">
+                <div className="card shadow p-4 mb-4">
+                    <h2 className="mb-3 text-center">Welcome {user.fullName}</h2>
+                    <div className="row">
+                        <div className="col-md-6 mb-3">
+                            <p><strong>Email:</strong> {user.email}</p>
                         </div>
-                        {user.logo && (
-                            <div className="text-center mt-4">
-                                <h5>Company Logo</h5>
-                                <img src={user.logo} alt="Company Logo" className="img-thumbnail" width={120} />
+                        <div className="col-md-6 mb-3">
+                            <p><strong>Mobile:</strong> {user.mobile}</p>
+                        </div>
+                    </div>
+                    <div className="text-center">
+                        <button className="btn btn-primary" onClick={() => setShowModal(true)}>
+                            Update Profile
+                        </button>
+                    </div>
+                </div>
+
+                {user.isProfileComplete ? (
+                    <>
+                        <div className="card shadow p-4 mb-4">
+                            <h4 className="mb-3">Company Details</h4>
+                            <div className="row">
+                                <div className="col-md-6 mb-2">
+                                    <p><strong>Company:</strong> {user.companyName}</p>
+                                    <p><strong>City:</strong> {user.city}</p>
+                                    <p><strong>Pin Code:</strong> {user.pinCode}</p>
+                                </div>
+                                <div className="col-md-6 mb-2">
+                                    <p><strong>State:</strong> {user.state}</p>
+                                    <p><strong>Main Category:</strong> {user.mainCategory}</p>
+                                    <p><strong>Sub Category:</strong> {user.subCategory}</p>
+                                </div>
+                            </div>
+                            {user.logo && (
+                                <div className="text-center mt-4">
+                                    <h5>Company Logo</h5>
+                                    <img src={user.logo} alt="Company Logo" className="img-thumbnail" width={120} />
+                                </div>
+                            )}
+                        </div>
+                        {user.images && user.images.length > 0 && (
+                            <div className="card shadow p-4">
+                                <h4 className="mb-3">Product Images</h4>
+                                <div className="row">
+                                    {user.images.map((img, idx) => (
+                                        <div key={idx} className="col-6 col-md-3 mb-3">
+                                            <img src={img} alt={`img-${idx}`} className="img-fluid rounded shadow-sm" />
+                                        </div>
+                                    ))}
+                                </div>
+                                <p><strong>Product Details</strong> {user.productDetails}</p>
                             </div>
                         )}
+                    </>
+                ) : (
+                    <div className="alert alert-warning text-center">
+                        Please complete your profile first!
                     </div>
-                    {user.images && user.images.length > 0 && (
-                        <div className="card shadow p-4">
-                            <h4 className="mb-3">Project Images</h4>
-                            <div className="row">
-                                {user.images.map((img, idx) => (
-                                    <div key={idx} className="col-6 col-md-3 mb-3">
-                                        <img src={img} alt={`img-${idx}`} className="img-fluid rounded shadow-sm" />
+                )}
+
+                {showModal && (
+                    <div className="modal fade show d-block" tabIndex="-1" aria-modal="true"
+                        style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} ref={modalRef}>
+                        <div className="modal-dialog modal-lg">
+                            <div className="modal-content">
+                                <form onSubmit={handleSubmit} encType="multipart/form-data">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">Update Profile</h5>
+                                        <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                                     </div>
-                                ))}
+                                    <div className="modal-body">
+                                        <div className="mb-3">
+                                            <label htmlFor="companyName" className="form-label">Company Name</label>
+                                            <input
+                                                type="text"
+                                                id="companyName"
+                                                name="companyName"
+                                                className="form-control"
+                                                value={formData.companyName}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="city" className="form-label">City</label>
+                                            <input
+                                                type="text"
+                                                id="city"
+                                                name="city"
+                                                className="form-control"
+                                                value={formData.city}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="state" className="form-label">State</label>
+                                            <input
+                                                type="text"
+                                                id="state"
+                                                name="state"
+                                                className="form-control"
+                                                value={formData.state}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="pinCode" className="form-label">Pin Code</label>
+                                            <input
+                                                type="text"
+                                                id="pinCode"
+                                                name="pinCode"
+                                                className="form-control"
+                                                value={formData.pinCode}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="mainCategory" className="form-label">Main Category</label>
+                                            <select
+                                                id="mainCategory"
+                                                name="mainCategory"
+                                                className="form-select"
+                                                value={formData.mainCategory}
+                                                onChange={handleChange}
+                                                required
+                                            >
+                                                <option value="">-- Select Main Category --</option>
+                                                {categories.map(cat => (
+                                                    <option key={cat._id} value={cat.name}>{cat.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="subCategory" className="form-label">Sub Category</label>
+                                            <select
+                                                id="subCategory"
+                                                name="subCategory"
+                                                className="form-select"
+                                                value={formData.subCategory}
+                                                onChange={handleChange}
+                                                required
+                                                disabled={!formData.mainCategory}
+                                            >
+                                                <option value="">-- Select Sub Category --</option>
+                                                {subCategories.map(sub => (
+                                                    <option key={sub._id} value={sub.name}>{sub.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="productDetails" className="form-label">Product Details</label>
+                                            <textarea
+                                                id="productDetails"
+                                                name="productDetails"
+                                                className="form-control"
+                                                rows="4"
+                                                value={formData.productDetails}
+                                                onChange={handleChange}
+                                                placeholder="Describe your products or services..."
+                                            />
+                                        </div>
+
+                                        <div className="mb-3">
+                                            <label htmlFor="logo" className="form-label">Company Logo (upload new to replace)</label>
+                                            <input
+                                                type="file"
+                                                id="logo"
+                                                name="logo"
+                                                className="form-control"
+                                                accept="image/*"
+                                                onChange={handleLogoChange}
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Project Images (you can add up to 5):</label>
+                                            {imageInputs.map((_, index) => (
+                                                <input
+                                                    key={index}
+                                                    type="file"
+                                                    className="form-control mb-2"
+                                                    accept="image/*"
+                                                    onChange={(e) => handleImageInputChange(e, index)}
+                                                />
+                                            ))}
+                                            {imageInputs.length < 5 && (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-sm btn-outline-primary mt-2"
+                                                    onClick={addImageInput}
+                                                >
+                                                    + Add Another Image
+                                                </button>
+                                            )}
+                                            {imageInputs.length >= 5 && (
+                                                <div className="text-danger mt-1">Maximum 5 images allowed</div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button
+                                            type="button"
+                                            className="btn btn-secondary"
+                                            onClick={() => setShowModal(false)}
+                                        >
+                                            Close
+                                        </button>
+                                        <button type="submit" className="btn btn-primary">Update Profile</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    )}
-                </>
-            ) : (
-                <div className="alert alert-warning text-center">
-                    Please complete your profile first!
-                </div>
-            )}
-
-            {showModal && (
-                <div className="modal fade show d-block" tabIndex="-1" aria-modal="true"
-                     style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} ref={modalRef}>
-                    <div className="modal-dialog modal-lg">
-                        <div className="modal-content">
-                            <form onSubmit={handleSubmit} encType="multipart/form-data">
-                                <div className="modal-header">
-                                    <h5 className="modal-title">Update Profile</h5>
-                                    <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
-                                </div>
-                                <div className="modal-body">
-                                    <div className="mb-3">
-                                        <label htmlFor="companyName" className="form-label">Company Name</label>
-                                        <input
-                                            type="text"
-                                            id="companyName"
-                                            name="companyName"
-                                            className="form-control"
-                                            value={formData.companyName}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="city" className="form-label">City</label>
-                                        <input
-                                            type="text"
-                                            id="city"
-                                            name="city"
-                                            className="form-control"
-                                            value={formData.city}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="state" className="form-label">State</label>
-                                        <input
-                                            type="text"
-                                            id="state"
-                                            name="state"
-                                            className="form-control"
-                                            value={formData.state}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="pinCode" className="form-label">Pin Code</label>
-                                        <input
-                                            type="text"
-                                            id="pinCode"
-                                            name="pinCode"
-                                            className="form-control"
-                                            value={formData.pinCode}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="mainCategory" className="form-label">Main Category</label>
-                                        <select
-                                            id="mainCategory"
-                                            name="mainCategory"
-                                            className="form-select"
-                                            value={formData.mainCategory}
-                                            onChange={handleChange}
-                                            required
-                                        >
-                                            <option value="">-- Select Main Category --</option>
-                                            {categories.map(cat => (
-                                                <option key={cat._id} value={cat.name}>{cat.name}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="subCategory" className="form-label">Sub Category</label>
-                                        <select
-                                            id="subCategory"
-                                            name="subCategory"
-                                            className="form-select"
-                                            value={formData.subCategory}
-                                            onChange={handleChange}
-                                            required
-                                            disabled={!formData.mainCategory}
-                                        >
-                                            <option value="">-- Select Sub Category --</option>
-                                            {subCategories.map(sub => (
-                                                <option key={sub._id} value={sub.name}>{sub.name}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="logo" className="form-label">Company Logo (upload new to replace)</label>
-                                        <input
-                                            type="file"
-                                            id="logo"
-                                            name="logo"
-                                            className="form-control"
-                                            accept="image/*"
-                                            onChange={handleLogoChange}
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Project Images (you can add up to 5):</label>
-                                        {imageInputs.map((_, index) => (
-                                            <input
-                                                key={index}
-                                                type="file"
-                                                className="form-control mb-2"
-                                                accept="image/*"
-                                                onChange={(e) => handleImageInputChange(e, index)}
-                                            />
-                                        ))}
-                                        {imageInputs.length < 5 && (
-                                            <button
-                                                type="button"
-                                                className="btn btn-sm btn-outline-primary mt-2"
-                                                onClick={addImageInput}
-                                            >
-                                                + Add Another Image
-                                            </button>
-                                        )}
-                                        {imageInputs.length >= 5 && (
-                                            <div className="text-danger mt-1">Maximum 5 images allowed</div>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <button
-                                        type="button"
-                                        className="btn btn-secondary"
-                                        onClick={() => setShowModal(false)}
-                                    >
-                                        Close
-                                    </button>
-                                    <button type="submit" className="btn btn-primary">Update Profile</button>
-                                </div>
-                            </form>
-                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )}
+            </div>
+            <Footer />
+        </>
     );
 }
 

@@ -8,25 +8,18 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    captcha: '',
   });
+
   const [message, setMessage] = useState('');
-  const [captchaImage, setCaptchaImage] = useState('');
 
+  // ✅ Load reCAPTCHA v3 script on mount
   useEffect(() => {
-    fetchCaptcha();
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js?render=6Ldn2FQrAAAAAKnVS4HvPvxI5k5ZNAVMowTjE5nK'; // Replace with your actual site key
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
   }, []);
-
-  const fetchCaptcha = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/user/generate-captcha', {
-        withCredentials: true, // important to send session cookies
-      });
-      setCaptchaImage(response.data);
-    } catch (error) {
-      console.error('Captcha load error:', error);
-    }
-  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,44 +29,56 @@ const Register = () => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      setMessage("Passwords do not match!");
       alert("❌ Passwords do not match!");
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/user/register', formData, {
-        withCredentials: true,
+      if (!window.grecaptcha || !window.grecaptcha.execute) {
+        alert("⚠️ reCAPTCHA not loaded yet. Please wait and try again.");
+        return;
+      }
+
+      // ✅ Proper reCAPTCHA execution with await
+      const token = await new Promise((resolve) => {
+        window.grecaptcha.ready(() => {
+          window.grecaptcha
+            .execute('6Ldn2FQrAAAAAKnVS4HvPvxI5k5ZNAVMowTjE5nK', { action: 'register' })
+            .then(resolve);
+        });
       });
+
+      console.log("✅ reCAPTCHA token:", token);
+
+      const response = await axios.post(
+        'http://localhost:5000/user/register',
+        { ...formData, recaptchaToken: token },
+        { withCredentials: true }
+      );
 
       setMessage(response.data.message);
 
       if (response.data.success) {
         alert("✅ Registered successfully! Check your email.");
-
         setFormData({
           fullName: '',
           mobile: '',
           email: '',
           password: '',
           confirmPassword: '',
-          captcha: '',
         });
       } else {
         alert(`⚠️ ${response.data.message}`);
       }
-
-      fetchCaptcha(); // refresh captcha
     } catch (error) {
       let errorMsg = "Registration failed. Try again.";
-      if (error.response && error.response.data && error.response.data.message) {
+      if (error.response?.data?.message) {
         errorMsg = error.response.data.message;
 
-        // 👇 Show alert specifically for "Email already exists"
         if (errorMsg === "Email already exists") {
           alert("⚠️ This email is already registered. Try another one.");
-        } else if (errorMsg === "Invalid CAPTCHA") {
-          alert("⚠️ CAPTCHA is incorrect. Please try again.");
+        } else if (errorMsg === "reCAPTCHA verification failed.") {
+          alert("⚠️ reCAPTCHA is incorrect. Please try again.");
         } else {
           alert(`❌ ${errorMsg}`);
         }
@@ -82,7 +87,6 @@ const Register = () => {
       }
 
       setMessage(errorMsg);
-      fetchCaptcha();
     }
   };
 
@@ -153,27 +157,14 @@ const Register = () => {
             />
           </div>
 
-          {captchaImage && (
-            <div className="mb-3">
-              <label className="form-label">Captcha</label>
-              <div dangerouslySetInnerHTML={{ __html: captchaImage }} />
-              <input
-                type="text"
-                name="captcha"
-                className="form-control mt-2"
-                placeholder="Enter captcha"
-                onChange={handleChange}
-                value={formData.captcha}
-                required
-              />
-            </div>
-          )}
+          <div className="text-muted text-end" style={{ fontSize: '0.8rem' }}>
+            This form is protected by Google reCAPTCHA v3.
+          </div>
 
-          <button type="submit" className="btn btn-primary w-100">Register</button>
+          <button type="submit" className="btn btn-primary w-100 mt-2">Register</button>
         </form>
-        {/* Right: Login Link */}
         <div className="text-center mt-3">
-          <span>already have an account? </span>
+          <span>Already have an account? </span>
           <a href="/login" className="text-decoration-none">Login</a>
         </div>
       </div>

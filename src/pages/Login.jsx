@@ -11,7 +11,7 @@ function Login() {
 
         try {
             const response = await fetch('http://localhost:5000/user/login', {
-                method: 'POST',
+                method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -25,7 +25,7 @@ function Login() {
                 localStorage.setItem('token', data.token);     // ✅ JWT saved
                 alert('Login successful!');
                 localStorage.setItem('userId', data.user.id);
-                navigate(`/dashboard/${data.user.id}`);
+                navigate(`/user-dashboard/${data.user.id}`);
                 // ✅ Navigate to Dashboard
             }
             else {
@@ -77,7 +77,7 @@ function Login() {
                 </form>
             </div>
         </div>
-    );
+    ); 
 }
 
 export default Login;
