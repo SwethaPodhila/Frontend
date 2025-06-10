@@ -17,6 +17,7 @@ import SearchProfessions from './pages/SearchProfessions';
 import Rfq from './pages/Rfq';
 import Notifications from './pages/Notifications';
 import AdminRFQApprovals from './pages/AdminRFQApprovals';
+import Home from './pages/Home';
 
 const App = () => {
   return (
@@ -24,7 +25,7 @@ const App = () => {
       <div>
         {/* You can add a Navbar here if needed */}
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/dashboard/:id" element={<Dashboard />} />
