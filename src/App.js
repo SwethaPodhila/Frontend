@@ -24,6 +24,7 @@ const App = () => {
       <div>
         {/* You can add a Navbar here if needed */}
         <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/dashboard/:id" element={<Dashboard />} />
@@ -36,10 +37,11 @@ const App = () => {
           <Route path="/user-enquiry" element={<UserEnquiry />} />
           <Route path="/user-dashboard/:id" element={<UserDashboard />} />
           <Route path="/professionals/search" element={<SearchProfessions />} />
-          <Route path="/user-dashboard/:id" element={<UserDashboard />} />
+          {/*   <Route path="/user-dashboard/:id" element={<UserDashboard />} /> */}
           <Route path="/rfq/:id" element={<Rfq />} />
           <Route path="/notifications/:id" element={<Notifications />} />
           <Route path="/admin/rfqs" element={<AdminRFQApprovals />} />
+          <Route path="*" element={<h2>404 - Page Not Found</h2>} />
         </Routes>
       </div>
     </Router>
