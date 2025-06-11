@@ -17,7 +17,9 @@ import SearchProfessions from './pages/SearchProfessions';
 import Rfq from './pages/Rfq';
 import Notifications from './pages/Notifications';
 import AdminRFQApprovals from './pages/AdminRFQApprovals';
-import Home from './pages/Home';
+import HomePage from './pages/HomePage';
+import Cities from './pages/Cities';
+import Projects from './pages/Projects';
 
 const App = () => {
   return (
@@ -25,7 +27,7 @@ const App = () => {
       <div>
         {/* You can add a Navbar here if needed */}
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/dashboard/:id" element={<Dashboard />} />
@@ -42,6 +44,9 @@ const App = () => {
           <Route path="/rfq/:id" element={<Rfq />} />
           <Route path="/notifications/:id" element={<Notifications />} />
           <Route path="/admin/rfqs" element={<AdminRFQApprovals />} />
+          <Route path="/admin/cities" element={<Cities />} />
+          <Route path="/projects/:id" element={<Projects />} />
+
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
         </Routes>
       </div>

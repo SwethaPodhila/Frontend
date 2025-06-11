@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -42,9 +45,16 @@ function ForgotPassword() {
     };
 
     return (
+          <>
+            <Header />
+            <div className="min-vh-100 vw-100 d-flex flex-column" style={{
+                backgroundColor: '#f5f5f5',
+                padding: '10px',
+        }}>
+
         <div className="container mt-5">
             <div className="card p-4 shadow" style={{ maxWidth: '400px', margin: 'auto' }}>
-                <h3 className="mb-4 text-center">Forgot Password</h3>
+                <h3 className="mb-4 text-center" style={{ backgroundColor: 'black', color: 'white', padding: '10px' }}>Forgot Password</h3>
 
                 {/* Email Field */}
                 <div className="mb-3">
@@ -58,7 +68,13 @@ function ForgotPassword() {
                         onChange={e => setEmail(e.target.value)}
                     />
                 </div>
-                <button className="btn btn-primary w-100 mb-3" onClick={handleSendOtp}>Send OTP</button>
+                <button 
+                    className="btn w-100 mb-3" 
+                    style={{ backgroundColor: '#FFD700', color: 'black' }} 
+                    onClick={handleSendOtp}
+                >
+                    Send OTP
+                </button>
 
                 {/* OTP & Reset Fields */}
                 {otpSent && (
@@ -95,12 +111,22 @@ function ForgotPassword() {
                                 onChange={e => setConfirmPassword(e.target.value)}
                             />
                         </div>
-                        <button className="btn btn-success w-100" onClick={handleResetPassword}>Reset Password</button>
+                        <button 
+                            className="btn w-100" 
+                            style={{ backgroundColor: '#FFD700', color: 'black' }} 
+                            onClick={handleResetPassword}
+                        >
+                            Reset Password
+                        </button>
                     </>
                 )}
             </div>
         </div>
-    );
+        
+            <Footer />
+</div>
+  </>  );
+   
 }
 
 export default ForgotPassword;

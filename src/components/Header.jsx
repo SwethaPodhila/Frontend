@@ -12,19 +12,19 @@ function Header() {
     };
 
     return (
-        <header className="bg-dark text-light py-3 shadow-sm">
+        <header style={{ backgroundColor: '#FFD700', color: 'black', padding: '18px 0', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
             <div className="container d-flex justify-content-between align-items-center">
                 <h4 className="mb-0">Nine Plus Infra</h4>
                 <nav>
-                    <Link to="/" className="text-light me-4 text-decoration-none">Home</Link>
+                    <Link to="/" className="text-dark me-4 text-decoration-none border border-dark rounded" style={{ padding: '5px 10px' }}>Home</Link>
                     {userId && (
-                        <Link to={`/dashboard/${userId}`} className="text-light me-4 text-decoration-none">
+                        <Link to={`/dashboard/${userId}`} className="text-dark me-4 text-decoration-none border border-dark rounded" style={{ padding: '5px 10px' }}>
                             Profile
                         </Link>
                     )}
                     <span
-                        className="text-light text-decoration-none"
-                        style={{ cursor: 'pointer' }}
+                        className="text-dark text-decoration-none border border-dark rounded"
+                        style={{ cursor: 'pointer', padding: '5px 10px' }}
                         onClick={handleLogout}
                     >
                         Logout
