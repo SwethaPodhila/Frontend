@@ -20,7 +20,10 @@ import AdminRFQApprovals from './pages/AdminRFQApprovals';
 import HomePage from './pages/HomePage';
 import Cities from './pages/Cities';
 import Projects from './pages/Projects';
+<<<<<<< HEAD
 import AboutUs from './pages/AboutUs';
+=======
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
 
 const App = () => {
   return (

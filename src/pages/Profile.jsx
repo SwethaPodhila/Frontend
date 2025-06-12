@@ -38,7 +38,11 @@ function Profile() {
 
     const fetchData = async () => {
       try {
+<<<<<<< HEAD
         const userRes = await fetch(`https://backend-u1pk.onrender.com/user/${id}`);
+=======
+        const userRes = await fetch(`http://localhost:5000/user/${id}`);
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
         const userData = await userRes.json();
 
         if (userData.expired) {
@@ -60,7 +64,11 @@ function Profile() {
           images: []
         }));
 
+<<<<<<< HEAD
         const categoryRes = await fetch("https://backend-u1pk.onrender.com/category/main-categories");
+=======
+        const categoryRes = await fetch("http://localhost:5000/category/main-categories");
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
         const categoryData = await categoryRes.json();
         setCategories(categoryData);
       } catch (err) {
@@ -107,7 +115,11 @@ function Profile() {
       }
 
       try {
+<<<<<<< HEAD
         const res = await fetch(`https://backend-u1pk.onrender.com/admin/citiesByState?state=${formData.state}`);
+=======
+        const res = await fetch(`http://localhost:5000/admin/citiesByState?state=${formData.state}`);
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
         const data = await res.json();
         setCities(data);
       } catch (err) {

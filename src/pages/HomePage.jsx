@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import headerImg from './image.png';
+<<<<<<< HEAD
+=======
+
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
 import {
   ArrowRight, CheckCircle, Users, MapPin, FileText, Shield, Star,
   Building2, Wrench, Paintbrush, Home, HardHat, Clock, IndianRupee,
@@ -21,6 +25,7 @@ function HomePage() {
     { name: 'others', icon: Hammer }
   ];
 
+<<<<<<< HEAD
   const pricingPlans = [
     {
       name: 'Starter Plan',
@@ -74,6 +79,8 @@ function HomePage() {
     }
   ];
 
+=======
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
   const recentRFQs = [
     {
       id: 1,
@@ -127,6 +134,7 @@ function HomePage() {
   return (
     <div style={{ backgroundColor: '#f8f9fa' }}>
       <Navbar />
+<<<<<<< HEAD
       <section style={{ backgroundColor: '#000', padding: '60px 0' }}>
         <div className="container d-flex flex-column-reverse flex-lg-row align-items-center justify-content-between gap-3">
 
@@ -161,6 +169,31 @@ function HomePage() {
                 border: '4px solid #FFD700'
               }}
             />
+=======
+
+      {/* Hero Section */}
+      <section className="text-white" style={{ backgroundColor: '#000', padding: '50px 0 30px' }}>
+        <div className="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+          <div className="mb-4 mb-md-0" style={{ maxWidth: '600px' }}>
+            <h1 className="display-5 fw-bold mb-3">
+              Connect with Verified <br />
+              <span style={{ color: primaryColor }}>Construction Service Providers</span> Across India
+            </h1>
+            <p className="lead mb-4">
+              Find trusted contractors, get competitive quotes, and complete your construction projects with confidence.
+            </p>
+            <div className="d-flex flex-column flex-sm-row gap-3">
+              <Link to="/user-enquiry" className="btn btn-warning btn-lg d-flex align-items-center justify-content-center">
+                Business Enquiry <ArrowRight className="ms-2" size={20} />
+              </Link>
+              <Link to="/about" className="btn btn-outline-light btn-lg">
+                About Us
+              </Link>
+            </div>
+          </div>
+          <div>
+            <img src={headerImg} alt="Construction" className="img-fluid rounded shadow" style={{ maxWidth: '500px' }} />
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
           </div>
         </div>
       </section>
@@ -199,6 +232,7 @@ function HomePage() {
       </section>
 
       {/* Services */}
+<<<<<<< HEAD
       <section className="py-5" style={{ backgroundColor: '#f9f9f9' }}>
         <div className="container">
           {/* Section Title */}
@@ -208,10 +242,19 @@ function HomePage() {
           </div>
 
           {/* Services Grid */}
+=======
+      <section className="py-4">
+        <div className="container">
+          <div className="text-center mb-4">
+            <h2 className="fw-bold mb-3">Our Services</h2>
+            <p className="lead text-secondary">Find expert contractors for all your construction needs</p>
+          </div>
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
           <div className="row g-4">
             {services.map((service, index) => {
               const IconComponent = service.icon;
               return (
+<<<<<<< HEAD
                 <div key={index} className="col-lg-3 col-md-4 col-sm-6">
                   <div
                     className="card h-100 text-center border-0 shadow-sm service-card"
@@ -229,6 +272,18 @@ function HomePage() {
                       <button className="btn btn-sm fw-semibold rounded-pill mt-auto"
                         style={{ backgroundColor: primaryColor, color: '#000' }}>
                         Find Contractors <ArrowRight className="ms-1" size={16} />
+=======
+                <div key={index} className="col-md-4 col-lg-3">
+                  <div className="card h-100 shadow-sm border-0">
+                    <div className="card-body text-center">
+                      <div className="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style={{ width: 64, height: 64 }}>
+                        <IconComponent size={32} style={{ color: primaryColor }} />
+                      </div>
+                      <h5 className="fw-semibold mb-2">{service.name}</h5>
+                      <p className="text-secondary mb-3">Connect with verified professionals for quality {service.name.toLowerCase()} services</p>
+                      <button className="btn" style={{ color: '#000', backgroundColor: primaryColor }}>
+                        Find Contractors <ArrowRight className="ms-2" size={18} />
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
                       </button>
                     </div>
                   </div>
@@ -237,6 +292,7 @@ function HomePage() {
             })}
           </div>
         </div>
+<<<<<<< HEAD
 
         {/* Extra CSS for hover */}
         <style>
@@ -250,6 +306,51 @@ function HomePage() {
       </section>
 
       {/* Why Choose Us */}
+=======
+      </section>
+
+      {/* Recently Posted RFQs */}
+      <section className="py-4 bg-light">
+        <div className="container">
+          <div className="text-center mb-4">
+            <h2 className="fw-bold mb-3">Recently Posted RFQs</h2>
+            <p className="lead text-secondary">Latest project opportunities from verified clients</p>
+          </div>
+          <div className="row g-4 mb-3">
+            {recentRFQs.map((rfq) => (
+              <div key={rfq.id} className="col-md-6 col-lg-4">
+                <div className="card h-100 shadow-sm border-0">
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between align-items-start mb-2">
+                      <span className="badge" style={{ backgroundColor: primaryColor, color: '#000' }}>{rfq.category}</span>
+                      <span className="text-muted small d-flex align-items-center"><Clock size={16} className="me-1" />{rfq.posted}</span>
+                    </div>
+                    <h5 className="fw-semibold mb-2">{rfq.title}</h5>
+                    <div className="mb-3">
+                      <div className="d-flex align-items-center text-secondary mb-1">
+                        <MapPin size={16} className="me-2" />{rfq.city}
+                      </div>
+                      <div className="d-flex align-items-center text-secondary">
+                        <IndianRupee size={16} className="me-2" />{rfq.budget}
+                      </div>
+                    </div>
+                    <button className="btn w-100" style={{ backgroundColor: primaryColor, color: '#000' }}>
+                      Submit Quote
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <button className="btn btn-lg fw-semibold px-4 py-2" style={{ backgroundColor: primaryColor, color: '#000' }}>
+              View All RFQs
+            </button>
+          </div>
+        </div>
+      </section>
+   {/* Why Choose Us */}
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
       <section className="py-5">
         <div className="container">
           <div className="text-center mb-5">
@@ -299,6 +400,7 @@ function HomePage() {
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* Pricing Plans */}
       <section className="py-5" style={{ backgroundColor: '#f9fafb' }}>
         <div className="container">
@@ -455,6 +557,8 @@ function HomePage() {
         </div>
       </section>
 
+=======
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
       {/* Testimonials */}
       <section className="py-5 bg-light">
         <div className="container">
@@ -492,6 +596,10 @@ function HomePage() {
       <UserFooter />
 
     </div>
+<<<<<<< HEAD
   )
+=======
+  );
+>>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
 }
 export default HomePage;
