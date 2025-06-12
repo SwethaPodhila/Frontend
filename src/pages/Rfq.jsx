@@ -57,11 +57,7 @@ function Rfq() {
 
     useEffect(() => {
         if (!state) return;
-<<<<<<< HEAD
         fetch(`https://backend-u1pk.onrender.com/admin/citiesByState?state=${encodeURIComponent(state)}`)
-=======
-        fetch(`http://localhost:5000/admin/citiesByState?state=${encodeURIComponent(state)}`)
->>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
             .then(res => res.json())
             .then(data => setCities(data))
             .catch(err => {

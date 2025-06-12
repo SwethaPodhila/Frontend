@@ -16,11 +16,7 @@ function Cities() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-<<<<<<< HEAD
             const res = await fetch('https://backend-u1pk.onrender.com/admin/add/cities', {
-=======
-            const res = await fetch('http://localhost:5000/admin/add/cities', {
->>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ state, name }),

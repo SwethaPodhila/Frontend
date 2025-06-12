@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -11,13 +10,6 @@ import Navbar from '../components/Navbar';
 function Projects() {
   const { id } = useParams();
   const navigate = useNavigate();
-=======
-import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-
-function Projects() {
-  const { id } = useParams();  // Get user ID from the URL parameters
->>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
   const [rfqs, setRfqs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,25 +17,11 @@ function Projects() {
   useEffect(() => {
     const fetchRfqs = async () => {
       try {
-<<<<<<< HEAD
         const token = localStorage.getItem('token');
         const res = await fetch(`https://backend-u1pk.onrender.com/rfq/user/Rfqs/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error('Failed to fetch RFQs');
-=======
-        const token = localStorage.getItem('token');  // Get token from localStorage
-        const res = await fetch(`http://localhost:5000/rfq/user/Rfqs/${id}`, {  // Pass user ID in the URL
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error('Failed to fetch RFQs');
-        }
-
->>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
         const data = await res.json();
         setRfqs(data);
       } catch (err) {
@@ -52,7 +30,6 @@ function Projects() {
         setLoading(false);
       }
     };
-<<<<<<< HEAD
     fetchRfqs();
   }, [id]);
 
@@ -135,40 +112,10 @@ function StatCard({ title, value, bg }) {
         <h6 className="text-muted mb-2">{title}</h6>
         <h3 className="fw-bold">{value}</h3>
       </div>
-=======
-
-    fetchRfqs();
-  }, [id]);  // Dependency on the user ID
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-
-  return (
-    <div className="container mt-5">
-      <h2>Your Created RFQs</h2>
-      {rfqs.length === 0 ? (
-        <p className="text-muted text-center">You haven’t created any RFQs yet.</p>
-      ) : (
-        <div className="list-group">
-          {rfqs.map((rfq) => (
-            <div key={rfq._id} className="list-group-item">
-              <h5>{rfq.title}</h5>
-              <p><strong>Budget:</strong> {rfq.budget}</p>
-              <p><strong>Location:</strong> {rfq.city}, {rfq.state}</p>
-              <p><strong>Deadline:</strong> {new Date(rfq.deadline).toLocaleDateString()}</p>
-              <Link to={`/rfq/${rfq._id}`} className="btn btn-primary btn-sm">
-                View Details
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
->>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
     </div>
   );
 }
 
-<<<<<<< HEAD
 const styles = {
   pageWrapper: {
     backgroundColor: '#f8f9fa',
@@ -182,6 +129,4 @@ const styles = {
   },
 };
 
-=======
->>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
 export default Projects;
