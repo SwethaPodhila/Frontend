@@ -16,7 +16,7 @@ function SubCategory() {
 
   const fetchMainCategories = async () => {
     try {
-      const res = await axios.get('https://construction-backend-w8qz.onrender.com/category/main-categories');
+      const res = await axios.get('https://backend-u1pk.onrender.com/category/main-categories');
       setMainCategories(res.data);
     } catch (err) {
       console.error('Error fetching main categories:', err);
@@ -25,7 +25,7 @@ function SubCategory() {
 
   const fetchSubCategories = async (mainCategoryId) => {
     try {
-      const res = await axios.get(`https://construction-backend-w8qz.onrender.com/category/sub-categories/${mainCategoryId}`);
+      const res = await axios.get(`https://backend-u1pk.onrender.com/category/sub-categories/${mainCategoryId}`);
       setSubCategories(res.data);
     } catch (err) {
       console.error('Error fetching sub-categories:', err);
@@ -35,7 +35,7 @@ function SubCategory() {
   const addSubCategory = async () => {
     if (!selectedMain || subName.trim() === '') return alert('Select main category and enter name');
     try {
-      await axios.post('https://construction-backend-w8qz.onrender.com/category/sub-categories', {
+      await axios.post('https://backend-u1pk.onrender.com/category/sub-categories', {
         name: subName,
         mainCategoryId: selectedMain,
       });
@@ -61,7 +61,7 @@ function SubCategory() {
   const updateSubCategory = async () => {
     if (!editName.trim()) return alert('Enter a valid name');
     try {
-      await axios.put(`https://construction-backend-w8qz.onrender.com/category/sub-categories/${editId}`, {
+      await axios.put(`https://backend-u1pk.onrender.com/category/sub-categories/${editId}`, {
         name: editName,
         mainCategoryId: selectedMain,
       });
@@ -75,7 +75,7 @@ function SubCategory() {
   const deleteSubCategory = async (id) => {
     if (!window.confirm('Are you sure you want to delete this sub-category?')) return;
     try {
-      await axios.delete(`https://construction-backend-w8qz.onrender.com/category/sub-categories/${id}`);
+      await axios.delete(`https://backend-u1pk.onrender.com/category/sub-categories/${id}`);
       fetchSubCategories(selectedMain);
     } catch (err) {
       console.error('Error deleting sub-category:', err);

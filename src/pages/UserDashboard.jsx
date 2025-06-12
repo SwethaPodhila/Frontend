@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
-import Header from '../components/Header';
+import Navbar from '../components/Navbar';
+import UserFooter from '../components/UserFooter';
 
 function UserDashboard() {
   const { id } = useParams();
@@ -18,7 +19,7 @@ function UserDashboard() {
         return;
       }
       try {
-        const userRes = await fetch(`http://localhost:5000/user/dashboard/${id}`, {
+        const userRes = await fetch(`https://backend-u1pk.onrender.com/user/dashboard/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!userRes.ok) throw new Error("User API failed");
@@ -32,111 +33,187 @@ function UserDashboard() {
   }, [id, navigate]);
 
   if (error) {
-    return (
-      <div className="container mt-5 text-center">
-        <div className="alert alert-danger" role="alert">
-          <strong>Error:</strong> {error}
-        </div>
-      </div>
-    );
+    return <div className="alert alert-danger m-5">{error}</div>;
   }
 
   if (!user) {
-    return (
-      <div className="container mt-5 text-center">
-        <div className="spinner-border text-primary" role="status" />
-        <p className="mt-3">Loading dashboard...</p>
-      </div>
-    );
+    return <div className="text-center mt-5">Loading...</div>;
   }
-  
+
   return (
     <>
-      <Header />
-      <div className="container py-5" style={{ maxWidth: '1000px', fontFamily: 'Inter, sans-serif' }}>
-        <h3 className="text-center mb-5 fw-bold">User Dashboard</h3>
+      <Navbar />
+      <div style={{ backgroundColor: '#f4f6f9', minHeight: '100vh', padding: '40px 20px' }}>
+        <div className="container" style={{ maxWidth: '1200px' }}>
 
-        {/* User Info Section */}
-        <div className="row text-center g-4 mb-5">
-          <div className="col-md-4">
-            <div className="shadow-sm rounded bg-white p-4">
-              <i className="bi bi-person-badge fs-1 text-primary mb-2"></i>
-              <h6 className="fw-bold mb-1">Category</h6>
-              <p className="text-muted">{user.mainCategory}</p>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="shadow-sm rounded bg-white p-4">
-              <i className="bi bi-tag fs-1 text-success mb-2"></i>
-              <h6 className="fw-bold mb-1">Subcategory</h6>
-              <p className="text-muted">{user.subCategory}</p>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="shadow-sm rounded bg-white p-4">
-              <i className="bi bi-check-circle fs-1 text-info mb-2"></i>
-              <h6 className="fw-bold mb-1">Active Status</h6>
-              <span className={`badge rounded-pill px-3 py-2 fw-medium ${localStorage.getItem('token') ? 'bg-success' : 'bg-danger'}`}>
-                {localStorage.getItem('token') ? 'Active' : 'Inactive'}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Manage Section */}
-        <h5 className="fw-bold mb-3">Manage</h5>
-        <div className="row text-center g-4">
-          <div className="col-md-3">
-            <div className="shadow-sm rounded bg-white p-4">
-              <i className="bi bi-kanban fs-2 text-warning mb-2"></i>
-              <h6 className="fw-semibold">Project Management</h6>
+          {/* WELCOME + ADD BUTTON */}
+          <div className="mb-5 p-4 rounded shadow-sm bg-white">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h3 className="fw-bold mb-1">Welcome, {user.fullName}!</h3>
+                <p className="text-muted mb-0">Here's your current account summary:</p>
+              </div>
               <button
-                className="btn btn-warning btn-sm w-100 mt-2"
-                onClick={() => navigate(`/projects/${id}`)}
-              >
-                Go
-              </button>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="shadow-sm rounded bg-white p-4">
-              <i className="bi bi-file-earmark-plus fs-2 text-secondary mb-2"></i>
-              <h6 className="fw-semibold">RFQ Create</h6>
-              <button
-                className="btn btn-secondary btn-sm w-100 mt-2"
+                className="btn btn-primary d-flex align-items-center"
                 onClick={() => navigate(`/rfq/${id}`)}
               >
-                Create
+                <i className="bi bi-plus-circle me-2 fs-5"></i> Add New Project
               </button>
             </div>
-          </div>
-          <div className="col-md-3">
-            <div className="shadow-sm rounded bg-white p-4">
-              <i className="bi bi-bell fs-2 text-danger mb-2"></i>
-              <h6 className="fw-semibold">Notifications</h6>
-              <button
-                className="btn btn-danger btn-sm w-100 mt-2"
-                onClick={() => navigate(`/notifications/${id}`)}
-              >
-                View
-              </button>
+
+            <div className="row mt-4">
+              <div className="col-md-4 mb-3">
+                <div className="p-3 border-start border-warning border-4 bg-light rounded shadow-sm d-flex align-items-center">
+                  <i className="bi bi-person-badge fs-3 me-3 text-warning"></i>
+                  <div>
+                    <h6 className="text-muted mb-1">Category</h6>
+                    <strong>{user.mainCategory || 'N/A'}</strong>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4 mb-3">
+                <div className="p-3 border-start border-success border-4 bg-light rounded shadow-sm d-flex align-items-center">
+                  <i className="bi bi-tag fs-3 me-3 text-success"></i>
+                  <div>
+                    <h6 className="text-muted mb-1">Subcategory</h6>
+                    <strong>{user.subCategory || 'N/A'}</strong>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4 mb-3">
+                <div className="p-3 border-start border-primary border-4 bg-light rounded shadow-sm d-flex align-items-center">
+                  <i className="bi bi-check-circle fs-3 me-3 text-primary"></i>
+                  <div>
+                    <h6 className="text-muted mb-1">Account Status</h6>
+                    <span className={`badge ${localStorage.getItem('token') ? 'bg-success' : 'bg-danger'}`}>
+                      {localStorage.getItem('token') ? 'Active' : 'Inactive'}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="col-md-3">
-            <div className="shadow-sm rounded bg-white p-4">
-              <i className="bi bi-search fs-2 text-info mb-2"></i>
-              <h6 className="fw-semibold">Search Profession</h6>
-              <button
-                className="btn btn-info btn-sm w-100 mt-2 text-white"
-                onClick={() => navigate(`/professionals/search`)}
-              >
-                Search
-              </button>
-            </div>
+
+          {/* Quick Actions */}
+          <h5 className="fw-bold mb-4" style={{ color: '#2c3e50' }}>Quick Actions</h5>
+          <div className="row g-4">
+            {[
+              {
+                title: "All Projects",
+                icon: "bi-kanban",
+                color: "#ffc107",
+                bg: "rgba(255, 193, 7, 0.1)",
+                btnText: "Manage",
+                path: `/projects/${id}`,
+              },
+              {
+                title: "Create Project",
+                icon: "bi-file-earmark-plus",
+                color: "#6c757d",
+                bg: "rgba(108, 117, 125, 0.1)",
+                btnText: "Create",
+                path: `/rfq/${id}`,
+              },
+              {
+                title: "Notifications",
+                icon: "bi-bell",
+                color: "#dc3545",
+                bg: "rgba(220, 53, 69, 0.1)",
+                btnText: "View",
+                path: `/notifications/${id}`,
+              },
+              {
+                title: "Professionals",
+                icon: "bi-search",
+                color: "#0d6efd",
+                bg: "rgba(13, 110, 253, 0.1)",
+                btnText: "Search",
+                path: `/professionals/search`,
+              },
+              {
+                title: "Tasks",
+                icon: "bi-list-task",
+                color: "#17a2b8",
+                bg: "rgba(23, 162, 184, 0.1)",
+                btnText: "Open",
+                path: `/tasks/${id}`,
+              },
+              {
+                title: "Team",
+                icon: "bi-people",
+                color: "#6610f2",
+                bg: "rgba(102, 16, 242, 0.1)",
+                btnText: "View",
+                path: `/team/${id}`,
+              },
+              {
+                title: "Files",
+                icon: "bi-folder2-open",
+                color: "#fd7e14",
+                bg: "rgba(253, 126, 20, 0.1)",
+                btnText: "Browse",
+                path: `/files/${id}`,
+              },
+              {
+                title: "Chat",
+                icon: "bi-chat-dots",
+                color: "#198754",
+                bg: "rgba(25, 135, 84, 0.1)",
+                btnText: "Message",
+                path: `/chat/${id}`,
+              },
+              {
+                title: "Schedule",
+                icon: "bi-calendar-check",
+                color: "#20c997",
+                bg: "rgba(32, 201, 151, 0.1)",
+                btnText: "Plan",
+                path: `/schedule/${id}`,
+              },
+              {
+                title: "Reports",
+                icon: "bi-bar-chart-line",
+                color: "#d63384",
+                bg: "rgba(214, 51, 132, 0.1)",
+                btnText: "Analyze",
+                path: `/reports/${id}`,
+              },
+              {
+                title: "Settings",
+                icon: "bi-gear",
+                color: "#343a40",
+                bg: "rgba(52, 58, 64, 0.1)",
+                btnText: "Configure",
+                path: `/settings/${id}`,
+              }
+            ].map((action, index) => (
+              <div className="col-md-3" key={index}>
+                <div
+                  className="h-100 p-3"
+                  style={{
+                    backgroundColor: action.bg,
+                    borderRadius: '12px',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
+                    border: '1px solid #f0f0f0',
+                    transition: 'all 0.2s',
+                    cursor: 'pointer',
+                    textAlign: 'center'
+                  }}
+                  onClick={() => navigate(action.path)}
+                  onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+                >
+                  <i className={`bi ${action.icon} fs-3 mb-2`} style={{ color: action.color }}></i>
+                  <h6 style={{ fontWeight: '600', color: action.color }}>{action.title}</h6>
+                  <p style={{ fontSize: '0.85rem', color: '#555' }}>{action.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
+
         </div>
       </div>
-      <Footer />
+      <UserFooter />
     </>
   );
 }

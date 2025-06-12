@@ -20,16 +20,16 @@ function SearchProfessions() {
 
   const fetchAllData = async () => {
     try {
-      const usersRes = await fetch('http://localhost:5000/user/all/users');
+      const usersRes = await fetch('https://backend-u1pk.onrender.com/user/all/users');
       const users = await usersRes.json();
       setAllUsers(users);
       setFilteredUsers(users);
 
-      const catRes = await fetch('http://localhost:5000/category/main-categories');
+      const catRes = await fetch('https://backend-u1pk.onrender.com/category/main-categories');
       const catData = await catRes.json();
       setCategories(catData);
 
-      const subCatRes = await fetch('http://localhost:5000/category/sub-categories');
+      const subCatRes = await fetch('https://backend-u1pk.onrender.com/category/sub-categories');
       const subData = await subCatRes.json();
       setSubCategories(subData);
     } catch (err) {

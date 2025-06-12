@@ -10,7 +10,7 @@ function MainCategory() {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('https://construction-backend-w8qz.onrender.com/category/main-categories');
+      const res = await axios.get('https://backend-u1pk.onrender.com/category/main-categories');
       setCategories(res.data);
     } catch (err) {
       console.error('Error fetching categories:', err);
@@ -20,7 +20,7 @@ function MainCategory() {
   const addCategory = async () => {
     if (!name.trim()) return alert('Enter a category name');
     try {
-      await axios.post('https://construction-backend-w8qz.onrender.com/category/main-categories', { name });
+      await axios.post('https://backend-u1pk.onrender.com/category/main-categories', { name });
       setName('');
       fetchCategories();
     } catch (err) {
@@ -43,7 +43,7 @@ function MainCategory() {
   const updateCategory = async () => {
     if (!editName.trim()) return alert('Enter a valid name');
     try {
-      await axios.put(`https://construction-backend-w8qz.onrender.com/category/main-categories/${editId}`, { name: editName });
+      await axios.put(`https://backend-u1pk.onrender.com/category/main-categories/${editId}`, { name: editName });
       closeModal();
       fetchCategories();
     } catch (err) {
@@ -54,7 +54,7 @@ function MainCategory() {
   const deleteCategory = async (id) => {
     if (!window.confirm('Are you sure you want to delete this category?')) return;
     try {
-      await axios.delete(`https://construction-backend-w8qz.onrender.com/category/main-categories/${id}`);
+      await axios.delete(`https://backend-u1pk.onrender.com/category/main-categories/${id}`);
       fetchCategories();
     } catch (err) {
       console.error('Error deleting category:', err);

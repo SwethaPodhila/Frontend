@@ -12,7 +12,7 @@ function Notifications() {
             if (!token) return;
 
             try {
-                const res = await fetch('https://backend-u1pk.onrender.com/rfq/user', {
+                const res = await fetch('http://localhost:5000/rfq/user', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -62,7 +62,7 @@ function Notifications() {
                                         <strong>Message:</strong> {note.message}
                                     </p>
                                     <p className="mb-1">
-                                        <strong>Location:</strong> {note.rfq?.city || 'N/A'}, {note.rfq?.state || 'N/A'}
+                                        <strong>Location:</strong> {note.rfq?.city || 'N/A'} , {note.rfq?.state || 'N/A'}
                                     </p>
                                     <p className="mb-1">
                                         <strong>Budget:</strong> {note.rfq?.budget || 'N/A'}

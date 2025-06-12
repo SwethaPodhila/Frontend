@@ -16,7 +16,7 @@ function AdminDashboard() {
 
   const fetchMainCategoryCount = async () => {
     try {
-      const res = await axios.get('https://construction-backend-w8qz.onrender.com/category/main-categories');
+      const res = await axios.get('https://backend-u1pk.onrender.com/category/main-categories');
       setMainCount(res.data.length);
     } catch (err) {
       console.error('Error fetching main categories:', err);
@@ -25,7 +25,7 @@ function AdminDashboard() {
 
   const fetchSubCategoryCount = async () => {
     try {
-      const res = await axios.get('https://construction-backend-w8qz.onrender.com/category/sub-categories');
+      const res = await axios.get('https://backend-u1pk.onrender.com/category/sub-categories');
       setSubCount(res.data.length);
     } catch (err) {
       console.error('Error fetching sub categories:', err);
@@ -34,7 +34,7 @@ function AdminDashboard() {
 
   const fetchUserCount = async () => {
     try {
-      const res = await axios.get('https://construction-backend-w8qz.onrender.com/user/all/users');
+      const res = await axios.get('https://backend-u1pk.onrender.com/user/all/users');
       setUserCount(res.data.length);
     } catch (err) {
       console.error('Error fetching users:', err);

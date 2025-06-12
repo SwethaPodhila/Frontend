@@ -12,25 +12,33 @@ function Header() {
     };
 
     return (
-        <header className="bg-dark text-light py-3 shadow-sm">
+        <header style={{ backgroundColor: '#FFD700', color: 'black', padding: '18px 0', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
             <div className="container d-flex justify-content-between align-items-center">
-                <h4 className="mb-0">Nine Plus Infra</h4>
-                <nav>
-                    <Link to="/" className="text-light me-4 text-decoration-none">Home</Link>
-                    {userId && (
-                        <Link to={`/dashboard/${userId}`} className="text-light me-4 text-decoration-none">
-                            Profile
-                        </Link>
-                    )}
-                    <span
-                        className="text-light text-decoration-none"
-                        style={{ cursor: 'pointer' }}
-                        onClick={handleLogout}
+                <h4 className="mb-0">nineplusinfra</h4>
+                <div className="d-flex align-items-center">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="btn btn-outline-dark me-3"
+                        style={{ padding: '5px 12px', fontSize: '14px' }}
                     >
-                        Logout
-                    </span>
-                </nav>
+                        ← Back
+                    </button>
+                    <nav>
+                        <Link to="/" className="text-dark me-3 text-decoration-none border border-dark rounded px-2 py-1">Home</Link>
+                        {userId && (
+                            <Link to={`/dashboard/${userId}`} className="text-dark me-3 text-decoration-none border border-dark rounded px-2 py-1">Profile</Link>
+                        )}
+                        <span
+                            className="text-dark text-decoration-none border border-dark rounded px-2 py-1"
+                            style={{ cursor: 'pointer' }}
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </span>
+                    </nav>
+                </div>
             </div>
+
         </header>
     );
 }

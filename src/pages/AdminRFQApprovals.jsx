@@ -6,7 +6,7 @@ function AdminRFQApprovals() {
 
     const fetchPendingRFQs = async () => {
         try {
-            const res = await fetch('http://localhost:5000/admin/pending');
+            const res = await fetch('https://backend-u1pk.onrender.com/admin/pending');
             const data = await res.json();
             setRfqs(data);
         } catch (err) {
@@ -18,7 +18,7 @@ function AdminRFQApprovals() {
 
     const approveRfq = async (id) => {
         try {
-            const res = await fetch(`http://localhost:5000/admin/approve/${id}`, {
+            const res = await fetch(`https://backend-u1pk.onrender.com/admin/approve/${id}`, {
                 method: 'POST'
             });
             const result = await res.json();

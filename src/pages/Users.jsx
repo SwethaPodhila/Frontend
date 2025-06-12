@@ -13,7 +13,7 @@ function Users() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('https://construction-backend-w8qz.onrender.com/user/all/users');
+      const res = await axios.get('https://backend-u1pk.onrender.com/user/all/users');
       setUsers(res.data);
     } catch (err) {
       console.error('Error fetching users:', err);
@@ -45,7 +45,7 @@ function Users() {
 
   const saveUser = async () => {
     try {
-      await axios.put(`https://construction-backend-w8qz.onrender.com/user/profile/admin/${editUserId}`, editData);
+      await axios.put(`https://backend-u1pk.onrender.com/user/profile/admin/${editUserId}`, editData);
       closeModal();
       fetchUsers();
     } catch (err) {
@@ -56,7 +56,7 @@ function Users() {
   const deleteUser = async (id) => {
     if (!window.confirm('Are you sure you want to delete this user?')) return;
     try {
-      await axios.delete(`https://construction-backend-w8qz.onrender.com/user/delete/${id}`);
+      await axios.delete(`https://backend-u1pk.onrender.com/user/delete/${id}`);
       fetchUsers();
     } catch (err) {
       console.error('Error deleting user:', err);
