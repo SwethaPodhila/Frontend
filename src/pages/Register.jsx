@@ -16,7 +16,7 @@ const Register = () => {
   // ✅ Load reCAPTCHA v3 script on mount
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://www.google.com/recaptcha/api.js?render=6Ldn2FQrAAAAAKnVS4HvPvxI5k5ZNAVMowTjE5nK'; // Replace with your actual site key
+    script.src = 'https://www.google.com/recaptcha/api.js?render=6LdD6F0rAAAAANNCwZUTrd8WWxu56nD8TAvnA02-'; // Replace with your actual site key
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
