@@ -240,6 +240,58 @@ function HomePage() {
           `}
         </style>
       </section>
+      
+      {/* Why Choose Us */}
+      <section className="py-5">
+        <div className="container">
+          <div className="text-center mb-5">
+            <h2 className="fw-bold mb-3">Why Choose nineplusinfra</h2>
+            <p className="lead text-secondary">
+              The trusted platform for construction professionals and project owners
+            </p>
+          </div>
+          <div className="row g-4">
+            <div className="col-md-3 text-center">
+              <div className="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center mx-auto mb-3" style={{ width: 80, height: 80 }}>
+                <Shield size={40} className="text-success" />
+              </div>
+              <h6 className="fw-semibold mb-2">Verified Profiles</h6>
+              <p className="text-secondary">
+                All contractors are thoroughly verified with document checks and quality assessments
+              </p>
+            </div>
+            <div className="col-md-3 text-center">
+              <div className="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center mx-auto mb-3" style={{ width: 80, height: 80 }}>
+                <MapPin size={40} className="text-primary" />
+              </div>
+              <h6 className="fw-semibold mb-2">Location-Based Matching</h6>
+              <p className="text-secondary">
+                Connect with contractors in your city for faster response and better service
+              </p>
+            </div>
+            <div className="col-md-3 text-center">
+              <div className="rounded-circle bg-info bg-opacity-10 d-flex align-items-center justify-content-center mx-auto mb-3" style={{ width: 80, height: 80 }}>
+                <FileText size={40} className="text-info" />
+              </div>
+              <h6 className="fw-semibold mb-2">Easy Quotation System</h6>
+              <p className="text-secondary">
+                Streamlined process for receiving and comparing multiple quotations quickly
+              </p>
+            </div>
+            <div className="col-md-3 text-center">
+              <div className="rounded-circle bg-warning bg-opacity-10 d-flex align-items-center justify-content-center mx-auto mb-3" style={{ width: 80, height: 80 }}>
+                <CheckCircle size={40} className="text-warning" />
+              </div>
+              <h6 className="fw-semibold mb-2">Secure Platform</h6>
+              <p className="text-secondary">
+                Safe and secure environment with payment protection and dispute resolution
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
 
       {/* Pricing Plans */}
       <section className="py-5" style={{ backgroundColor: '#f8f9fa' }}>

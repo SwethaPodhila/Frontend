@@ -32,18 +32,14 @@ const Navbar = () => {
                 Find Services
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link nav-hover" to="/user-enquiry">
-                Post RFQ
-              </Link>
-            </li>
+           
             <li className="nav-item">
               <Link className="nav-link nav-hover" to="/about">
                 About
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link nav-hover" to="/contact">
+              <Link className="nav-link nav-hover" to="/user-enquiry">
                 Contact
               </Link>
             </li>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import Navbar from '../components/Navbar';
 import { Link } from 'react-router-dom';
+import headerImg from './image.png';
+
 import { ArrowRight } from 'lucide-react';
 import UserFooter from '../components/UserFooter';
 
@@ -178,20 +180,37 @@ const UserEnquiryForm = () => {
     <div className="min-vh-100" style={{ backgroundColor: '#f8f9fa' }}>
       <Navbar />
 
-      {/* Hero */}
-      <section style={{ backgroundColor: secondaryColor }} className="text-white py-5 text-center position-relative">
-        <div className="container position-relative" style={{ zIndex: 2 }}>
-          <h1 className="display-4 fw-bold mb-3">
-            Connect with Verified Construction <br />
-            <span style={{ color: primaryColor }}>Service Providers</span> Across India
-          </h1>
-          <p className="lead mb-4">
-            Find trusted contractors, get competitive quotes, and complete your construction projects with confidence
-          </p>
-          <div className="d-flex flex-column flex-sm-row justify-content-center gap-3">
-            <Link to="/about" className="btn btn-lg d-flex align-items-center justify-content-center" style={{ backgroundColor: primaryColor, color: secondaryColor }}>
-              About Us <ArrowRight className="ms-2" size={20} />
-            </Link>
+      {/* Hero Section */}
+      <section style={{ backgroundColor: '#000', padding: '60px 0' }}>
+        <div className="container d-flex flex-column-reverse flex-lg-row align-items-center justify-content-between gap-3">
+          <div style={{ maxWidth: '880px' }} className="text-center text-lg-start">
+            <h1 className="fw-bold text-white mb-4 display-5">
+              Connect with Verified <br />
+              <span style={{ color: primaryColor }}>Construction Experts</span> Across India
+            </h1>
+            <p className="text-light fs-5 mb-4">
+              Post your RFQ and get quotes from trusted contractors to make your project stress-free and efficient.
+            </p>
+            <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+              <Link to="/user-enquiry" className="btn btn-warning btn-lg px-4 d-flex align-items-center justify-content-center shadow">
+                Post RFQ <ArrowRight className="ms-2" />
+              </Link>
+              <Link to="/about" className="btn btn-outline-light btn-lg px-4 shadow-sm">
+                Learn More
+              </Link>
+            </div>
+          </div>
+          <div className="text-center">
+            <img
+              src={headerImg}
+              alt="Construction Banner"
+              className="img-fluid rounded shadow"
+              style={{
+                width: '360px',
+                maxWidth: '100%',
+                border: `3px solid ${primaryColor}`
+              }}
+            />
           </div>
         </div>
       </section>
@@ -216,8 +235,8 @@ const UserEnquiryForm = () => {
                 setOtpInput('');
               }} />
             </div>
-            <button type="button" className={`btn ${otpVerified ? 'btn-success' : ''}`} 
-              style={{ backgroundColor: otpVerified ? '#28a745' : primaryColor, color: secondaryColor, height: 'fit-content', marginTop: '1.9rem' }} 
+            <button type="button" className={`btn ${otpVerified ? 'btn-success' : ''}`}
+              style={{ backgroundColor: otpVerified ? '#28a745' : primaryColor, color: secondaryColor, height: 'fit-content', marginTop: '1.9rem' }}
               onClick={sendOtp} disabled={otpSent && !otpVerified}>
               {otpSent ? (otpVerified ? 'Verified' : 'Resend OTP') : 'Send OTP'}
             </button>
