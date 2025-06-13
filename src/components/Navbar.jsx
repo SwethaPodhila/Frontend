@@ -1,19 +1,19 @@
-<<<<<<< HEAD
 import React from 'react';
-=======
-import React from 'react'
->>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
 import { Link } from 'react-router-dom';
 import { Building2 } from 'lucide-react';
 
 const Navbar = () => {
-<<<<<<< HEAD
   return (
-    <nav className="navbar navbar-expand-lg shadow-sm sticky-top" style={{ backgroundColor: '#FFD700', fontFamily: "'Inter', sans-serif" }}>
+    <nav
+      className="navbar navbar-expand-lg shadow-sm sticky-top"
+      style={{ backgroundColor: '#FFD700', fontFamily: "'Inter', sans-serif" }}
+    >
       <div className="container">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <Building2 size={28} style={{ color: '#000' }} />
-          <span className="ms-2 fw-bold fs-4" style={{ color: '#000' }}>nineplusinfra</span>
+          <span className="ms-2 fw-bold fs-4" style={{ color: '#000' }}>
+            nineplusinfra
+          </span>
         </Link>
 
         <button
@@ -28,21 +28,34 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="mainNavbar">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link nav-hover" to="/services">Find Services</Link>
+              <Link className="nav-link nav-hover" to="/services">
+                Find Services
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link nav-hover" to="/user-enquiry">Post RFQ</Link>
+              <Link className="nav-link nav-hover" to="/user-enquiry">
+                Post RFQ
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link nav-hover" to="/about">About</Link>
+              <Link className="nav-link nav-hover" to="/about">
+                About
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link nav-hover" to="/contact">Contact</Link>
+              <Link className="nav-link nav-hover" to="/contact">
+                Contact
+              </Link>
             </li>
           </ul>
+
           <div className="d-flex ms-lg-3 mt-3 mt-lg-0">
-            <Link className="btn btn-outline-dark me-2 rounded-pill px-4" to="/login">Login</Link>
-            <Link className="btn btn-dark rounded-pill px-4" to="/register">Register</Link>
+            <Link className="btn btn-outline-dark me-2 rounded-pill px-4" to="/login">
+              Login
+            </Link>
+            <Link className="btn btn-dark rounded-pill px-4" to="/register">
+              Register
+            </Link>
           </div>
         </div>
       </div>
@@ -51,33 +64,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-=======
-    return (
-      <nav className="navbar navbar-expand-lg" style={{ backgroundColor: '#FFD700' }}>
-            <div className="container">
-                <Link className="navbar-brand d-flex align-items-center" to="/">
-                    <Building2 size={32} style={{ color: '#000' }} />
-                    <span className="ms-2 fw-bold fs-4" style={{ color: '#000' }}>nineplusinfra</span>
-                </Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="mainNavbar">
-                    <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li className="nav-item"><Link className="nav-link" style={{ color: '#000' }} to="#">Find Services</Link></li>
-                        <li className="nav-item"><Link className="nav-link" style={{ color: '#000' }} to="/user-enquiry">Post RFQ</Link></li>
-                        <li className="nav-item"><Link className="nav-link" style={{ color: '#000' }} to="#">About</Link></li>
-                        <li className="nav-item"><Link className="nav-link" style={{ color: '#000' }} to="#">Contact</Link></li>
-                    </ul>
-                    <div className="d-flex ms-3">
-                        <Link className="btn btn-outline-dark me-2" to="/login">Login</Link>
-                        <Link className="btn btn-dark" to="/register">Register</Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    )
-}
-
-export default Navbar
->>>>>>> b2e81004913c99e4041a9269bbb142641cf397a8
