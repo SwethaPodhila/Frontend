@@ -44,7 +44,7 @@ const Register = () => {
       const token = await new Promise((resolve) => {
         window.grecaptcha.ready(() => {
           window.grecaptcha
-            .execute('6Ldn2FQrAAAAAKnVS4HvPvxI5k5ZNAVMowTjE5nK', { action: 'register' })
+            .execute('6LdD6F0rAAAAANNCwZUTrd8WWxu56nD8TAvnA02-', { action: 'register' })
             .then(resolve);
         });
       });
