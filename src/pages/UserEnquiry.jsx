@@ -317,7 +317,7 @@ const UserEnquiryForm = () => {
 const UserEnquiry = () => {
   return (
     <GoogleReCaptchaProvider
-      reCaptchaKey="6LdD6F0rAAAAANNCwZUTrd8WWxu56nD8TAvnA02-"
+      reCaptchaKey="6Ldpr18rAAAAAEVYRAgvynsQGjYXtYsrGohSntrF"
       scriptProps={{ async: true, defer: true, appendTo: 'head' }}
     >
       <UserEnquiryForm />

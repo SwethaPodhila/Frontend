@@ -16,7 +16,7 @@ const Register = () => {
   // ✅ Load reCAPTCHA v3 script on mount
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://www.google.com/recaptcha/api.js?render=6LdD6F0rAAAAANNCwZUTrd8WWxu56nD8TAvnA02-'; // Replace with your actual site key
+    script.src = 'https://www.google.com/recaptcha/api.js?render=6Ldpr18rAAAAAEVYRAgvynsQGjYXtYsrGohSntrF'; // Replace with your actual site key
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
@@ -44,7 +44,7 @@ const Register = () => {
       const token = await new Promise((resolve) => {
         window.grecaptcha.ready(() => {
           window.grecaptcha
-            .execute('6LdD6F0rAAAAANNCwZUTrd8WWxu56nD8TAvnA02-', { action: 'register' })
+            .execute('6Ldpr18rAAAAAEVYRAgvynsQGjYXtYsrGohSntrF', { action: 'register' })
             .then(resolve);
         });
       });
