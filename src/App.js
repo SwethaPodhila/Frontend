@@ -21,6 +21,7 @@ import HomePage from './pages/HomePage';
 import Cities from './pages/Cities';
 import Projects from './pages/Projects';
 import AboutUs from './pages/AboutUs';
+import ProjectDetails from './pages/ProjectDetails';
 const App = () => {
   return (
     <Router>
@@ -41,12 +42,13 @@ const App = () => {
           <Route path="/user-enquiry" element={<UserEnquiry />} />
           <Route path="/user-dashboard/:id" element={<UserDashboard />} />
           <Route path="/professionals/search" element={<SearchProfessions />} />
-          {/*   <Route path="/user-dashboard/:id" element={<UserDashboard />} /> */}
+          {/*   <Route path="/user-dashboard/:id" element={<UserDashboard />} />   /projectDetails/${rfq._id} */}
           <Route path="/rfq/:id" element={<Rfq />} />
           <Route path="/notifications/:id" element={<Notifications />} />
           <Route path="/admin/rfqs" element={<AdminRFQApprovals />} />
           <Route path="/admin/cities" element={<Cities />} />
           <Route path="/projects/:id" element={<Projects />} />
+          <Route path="/projectDetails/:id" element={<ProjectDetails />} />
 
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
         </Routes>

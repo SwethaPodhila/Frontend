@@ -57,17 +57,18 @@ function Rfq() {
             return;
         }
 
-        fetch('https://backend-u1pk.onrender.com/category/sub-categories/:mainCategoryId', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ mainCategoryIds }),
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log('Fetched subcategories:', data);
-                // Handle case where response is not an array
+        const fetchSubCategories = async () => {
+            try {
+                const mainCategoryIds = selectedCategories.map(cat => cat.value);
+
+                const res = await fetch('https://backend-u1pk.onrender.com/category/subCategories', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mainCategoryIds })
+                });
+
+                const data = await res.json();
+
                 if (Array.isArray(data)) {
                     setSubCategories(data);
                 } else if (Array.isArray(data.subCategories)) {
@@ -75,11 +76,13 @@ function Rfq() {
                 } else {
                     setSubCategories([]);
                 }
-            })
-            .catch(err => {
+            } catch (err) {
                 console.error('Failed to fetch subcategories', err);
                 setSubCategories([]);
-            });
+            }
+        };
+
+        fetchSubCategories();
     }, [selectedCategories]);
 
     useEffect(() => {
@@ -139,9 +142,8 @@ function Rfq() {
         form.append('state', state);         // Send state to backend
         form.append('city', city);       // Send city as 'location' for backend
         form.append('description', description);
-        form.append('deadline', deadline);
-        form.append('startDate', startDate);
         form.append('endDate', endDate);
+        form.append('startDate', startDate);
         form.append('stage', stage);
         form.append('clientName', clientName);
         form.append('clientEmail', clientEmail);
@@ -150,14 +152,13 @@ function Rfq() {
         selectedCategories.forEach(cat => form.append('categories', cat.value));
 
         selectedSubCategories.forEach(sub => form.append('subCategories', sub.value));
-        selectedCompanies.forEach(comp => form.append('providers', comp));
         imageInputs.forEach(file => {
             if (file) form.append('images', file);
         });
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('https://backend-u1pk.onrender.com/rfq/create', {
+            const res = await fetch('https://backend-u1pk.onrender.com/project/create', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -165,10 +166,10 @@ function Rfq() {
                 body: form,
             });
             const data = await res.json();
-            alert(data.message || 'RFQ Created!');
+            alert(data.message || 'Project Created!');
         } catch (err) {
             console.error('Submit failed', err);
-            alert('Failed to submit RFQ');
+            alert('Failed to submit Project. Please try again.');
         }
     };
 
@@ -301,7 +302,7 @@ function Rfq() {
                             )}
                         </div>
 
-                        <div className="mb-4">
+                        {/* <div className="mb-4">
                             <label className="form-label">Select Provider Companies</label>
                             <div className="row">
                                 {companies.map((company, idx) => (
@@ -319,7 +320,7 @@ function Rfq() {
                                     </div>
                                 ))}
                             </div>
-                        </div>
+                        </div>*/}
 
                         {/* === CLIENT INFO === */}
                         <h5 className="fw-bold mt-4 mb-3">Client Info</h5>
@@ -348,7 +349,7 @@ function Rfq() {
 
                         {/* === SUBMIT BUTTON === */}
                         <button type="submit" className="btn btn-warning w-100 fw-bold">
-                            <i className="bi bi-send-fill me-2"></i> Submit RFQ
+                            <i className="bi bi-send-fill me-2"></i> Submit Project
                         </button>
 
                     </form>

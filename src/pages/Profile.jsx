@@ -166,7 +166,7 @@ function Profile() {
       }
     }
 
-    const res = await fetch(`http://localhost:5000/user/profile/${id}`, {
+    const res = await fetch(`https://backend-u1pk.onrender.com/user/profile/${id}`, {
       method: 'PUT',
       body: form
     });
