@@ -4,6 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/Navbar';
 import UserFooter from '../components/UserFooter';
+import axios from 'axios';
 
 const stateList = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
@@ -11,7 +12,7 @@ const stateList = [
   "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
   "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
   "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi"
-]; 
+];
 
 const stageOptions = [
   "planning", "execution", "testing", "completed", "on hold", "cancelled"
@@ -24,22 +25,32 @@ function ProjectDetails() {
   const [formData, setFormData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [cities, setCities] = useState([]);
-
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setSelectedFiles(files);
 
-    const previews = files.map(file => URL.createObjectURL(file));
-    setPreviewUrls(previews);
-  };
+  const [responses, setResponses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // You can pass projectId if needed
+  useEffect(() => {
+    const fetchResponses = async () => {
+      try {
+        const res = await axios.get('https://your-api-url.com/api/responses'); // 🔁 Replace with your actual API
+        setResponses(res.data); // 🧠 Adjust if your API structure is different
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to load responses');
+        setLoading(false);
+      }
+    };
+
+    fetchResponses();
+  }, []);
 
   const token = localStorage.getItem('token');
 
-  // Initial fetch for project data and its cities
   useEffect(() => {
     const fetchProject = async () => {
       const res = await fetch(`https://backend-u1pk.onrender.com/project/projectDetails/${id}`, {
@@ -58,13 +69,11 @@ function ProjectDetails() {
     fetchProject();
   }, [id]);
 
-  // Controlled input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // When state changes, update city dropdown
   const handleStateChange = async (e) => {
     const selectedState = e.target.value;
     setFormData(prev => ({ ...prev, state: selectedState, city: '' }));
@@ -79,23 +88,23 @@ function ProjectDetails() {
     }
   };
 
-  // Submit update
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedFiles(files);
+    const previews = files.map(file => URL.createObjectURL(file));
+    setPreviewUrls(previews);
+  };
+
   const handleUpdate = async () => {
     const form = new FormData();
-
     for (let key in formData) {
       if (key !== 'images') form.append(key, formData[key]);
     }
-
-    selectedFiles.forEach(file => {
-      form.append('images', file); // backend should handle array upload
-    });
+    selectedFiles.forEach(file => form.append('images', file));
 
     const res = await fetch(`https://backend-u1pk.onrender.com/project/updateProject/${id}`, {
       method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
+      headers: { Authorization: `Bearer ${token}` },
       body: form
     });
 
@@ -112,39 +121,81 @@ function ProjectDetails() {
     <>
       <Navbar />
       <div className="container py-5">
-        <Button variant="secondary" className="mb-4" onClick={() => navigate(-1)}>← Back</Button>
-        <div className="card shadow p-4">
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h3 className="mb-0">Project Details</h3>
-            <Button variant="warning" onClick={() => setShowModal(true)}>Edit Project</Button>
-          </div>
+        <Button variant="outline-secondary" className="mb-4" onClick={() => navigate(-1)}>← Back</Button>
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <div className="row">
+            {/* Left Column: Project Details (65%) */}
+            <div className="col-md-8">
+              <div className="card shadow p-4 border-0">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h3 className="mb-0 fw-bold">Project Details</h3>
+                  <Button variant="dark" onClick={() => setShowModal(true)}>✏️ Edit Project</Button>
+                </div>
 
-          <div className="row g-4">
-            <Detail label="Title" value={getVal(project.title)} />
-            <Detail label="Budget" value={getVal(project.budget)} />
-            <Detail label="City" value={getVal(project.city)} />
-            <Detail label="State" value={getVal(project.state)} />
-            <Detail label="Description" value={getVal(project.description)} />
-            <Detail label="Start Date" value={project.startDate ? new Date(project.startDate).toLocaleDateString() : 'N/A'} />
-            <Detail label="End Date" value={project.endDate ? new Date(project.endDate).toLocaleDateString() : 'N/A'} />
-            <Detail label="Stage" value={getVal(project.stage)} />
-            <Detail label="Client Name" value={getVal(project.clientName)} />
-            <Detail label="Client Email" value={getVal(project.clientEmail)} />
-            <Detail label="Client Phone" value={getVal(project.clientPhone)} />
-            <Detail label="Client Address" value={getVal(project.clientAddress)} />
-          </div>
+                <div className="row g-4">
+                  <Detail label="Title" value={getVal(project.title)} />
+                  <Detail label="Budget" value={getVal(project.budget)} />
+                  <Detail label="City" value={getVal(project.city)} />
+                  <Detail label="State" value={getVal(project.state)} />
+                  <Detail label="Description" value={getVal(project.description)} />
+                  <Detail label="Start Date" value={project.startDate ? new Date(project.startDate).toLocaleDateString() : 'N/A'} />
+                  <Detail label="End Date" value={project.endDate ? new Date(project.endDate).toLocaleDateString() : 'N/A'} />
+                  <Detail label="Stage" value={getVal(project.stage)} />
+                  <Detail label="Client Name" value={getVal(project.clientName)} />
+                  <Detail label="Client Email" value={getVal(project.clientEmail)} />
+                  <Detail label="Client Phone" value={getVal(project.clientPhone)} />
+                  <Detail label="Client Address" value={getVal(project.clientAddress)} />
+                </div>
 
-          {project.images?.length > 0 && (
-            <div className="mt-5">
-              <h5>Project Images</h5>
-              <div className="d-flex flex-wrap gap-3">
-                {project.images.map((url, idx) => (
-                  <img key={idx} src={url} alt={`img-${idx}`} style={{ width: '150px', height: '100px', objectFit: 'cover', borderRadius: '8px' }} />
-                ))}
+                {project.images?.length > 0 && (
+                  <div className="mt-5">
+                    <h5 className="fw-semibold">Project Images</h5>
+                    <div className="d-flex flex-wrap gap-3">
+                      {project.images.map((url, idx) => (
+                        <img
+                          key={idx}
+                          src={url}
+                          alt={`img-${idx}`}
+                          style={{
+                            width: '150px',
+                            height: '100px',
+                            objectFit: 'cover',
+                            borderRadius: '8px'
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          )}
+
+            <div className="col-md-4">
+              <div
+                className="card shadow p-4 border-0"
+                style={{ maxHeight: '400px', overflowY: 'auto' }}
+              >
+                <h5 className="fw-bold mb-3">Responses from Users</h5>
+
+                {loading ? (
+                  <p className="text-muted">Loading responses...</p>
+                ) : error ? (
+                  <p className="text-danger">{error}</p>
+                ) : responses.length > 0 ? (
+                  <ul className="list-group list-group-flush">
+                    {responses.map((res, idx) => (
+                      <li key={idx} className="list-group-item">{res.message}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-muted">No responses yet.</p>
+                )}
+              </div>
+            </div>
+
+          </div>
         </div>
+
 
         {/* Edit Modal */}
         <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
@@ -156,7 +207,6 @@ function ProjectDetails() {
               <InputField name="title" label="Title" value={formData.title} onChange={handleChange} />
               <InputField name="budget" label="Budget" value={formData.budget} onChange={handleChange} />
 
-              {/* State Dropdown */}
               <div className="col-md-6">
                 <label className="form-label">State</label>
                 <select className="form-select" name="state" value={formData.state || ''} onChange={handleStateChange}>
@@ -167,7 +217,6 @@ function ProjectDetails() {
                 </select>
               </div>
 
-              {/* City Dropdown */}
               <div className="col-md-6">
                 <label className="form-label">City</label>
                 <select className="form-select" name="city" value={formData.city || ''} onChange={handleChange}>
@@ -178,7 +227,6 @@ function ProjectDetails() {
                 </select>
               </div>
 
-              {/* Stage Dropdown */}
               <div className="col-md-6">
                 <label className="form-label">Project Stage</label>
                 <select className="form-select" name="stage" value={formData.stage || ''} onChange={handleChange}>
@@ -193,7 +241,6 @@ function ProjectDetails() {
               <InputField name="clientEmail" label="Client Email" value={formData.clientEmail} onChange={handleChange} />
               <InputField name="clientPhone" label="Client Phone" value={formData.clientPhone} onChange={handleChange} />
               <InputField name="clientAddress" label="Client Address" value={formData.clientAddress} onChange={handleChange} />
-
               <InputField name="startDate" label="Start Date" value={formData.startDate?.slice(0, 10)} onChange={handleChange} type="date" />
               <InputField name="endDate" label="End Date" value={formData.endDate?.slice(0, 10)} onChange={handleChange} type="date" />
 
@@ -202,41 +249,15 @@ function ProjectDetails() {
                 <textarea className="form-control" name="description" value={formData.description || ''} onChange={handleChange} />
               </div>
 
-              {[...Array(6)].map((_, idx) => (
-                <div className="col-md-6" key={idx}>
-                  {selectedFiles[idx] || idx === selectedFiles.length ? (
-                    <>
-                      <label className="form-label">Image {idx + 1}</label>
-                      <input
-                        type="file"
-                        className="form-control"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files[0];
-                          if (file) {
-                            const newFiles = [...selectedFiles];
-                            newFiles[idx] = file;
-                            setSelectedFiles(newFiles);
-
-                            const newPreviews = [...previewUrls];
-                            newPreviews[idx] = URL.createObjectURL(file);
-                            setPreviewUrls(newPreviews);
-                          }
-                        }}
-                      />
-                      {previewUrls[idx] && (
-                        <div className="mt-2">
-                          <img
-                            src={previewUrls[idx]}
-                            alt={`preview-${idx}`}
-                            style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px' }}
-                          />
-                        </div>
-                      )}
-                    </>
-                  ) : null}
+              <div className="col-12">
+                <label className="form-label">Upload Images</label>
+                <input type="file" className="form-control" accept="image/*" multiple onChange={handleFileChange} />
+                <div className="mt-3 d-flex gap-2 flex-wrap">
+                  {previewUrls.map((url, idx) => (
+                    <img key={idx} src={url} alt={`preview-${idx}`} style={{ width: '100px', height: '80px', objectFit: 'cover', borderRadius: '6px' }} />
+                  ))}
                 </div>
-              ))}
+              </div>
 
             </div>
           </Modal.Body>

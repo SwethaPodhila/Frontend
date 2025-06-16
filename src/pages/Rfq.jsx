@@ -10,7 +10,6 @@ function Rfq() {
     const [city, setCity] = useState('');
     const [cities, setCities] = useState([]);
     const [description, setDescription] = useState('');
-    const [deadline, setDeadline] = useState('');
     const [subCategories, setSubCategories] = useState([]);
 
     const [selectedSubCategories, setSelectedSubCategories] = useState([]);
