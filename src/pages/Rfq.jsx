@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
+import UserFooter from '../components/UserFooter';
 
 function Rfq() {
     const [title, setTitle] = useState('');
@@ -176,7 +176,7 @@ function Rfq() {
     return (
         <>
             <Header />
-            <div className="container py-5" style={{
+            <div className="container py-5" style={{ 
                 maxWidth: '900px',
                 fontFamily: 'Inter, sans-serif'
             }}>
@@ -356,7 +356,7 @@ function Rfq() {
 
                 </div>
             </div>
-            <Footer />
+          <UserFooter />
         </>
     );
 }

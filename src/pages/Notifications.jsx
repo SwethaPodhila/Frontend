@@ -12,11 +12,11 @@ function Notifications() {
             if (!token) return;
 
             try {
-                const res = await fetch('https://backend-u1pk.onrender.com/rfq/user', {
+                const res = await fetch('https://backend-u1pk.onrender.com/project/user', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                });
+                }); 
 
                 const data = await res.json();
                 console.log("Fetched notifications:", data);
@@ -42,7 +42,7 @@ function Notifications() {
 
     return (
         <>
-        <Header />
+            <Header />
             <div className="container mt-5" style={{ maxWidth: '960px', fontFamily: 'Inter, sans-serif' }}>
                 <div className="bg-white p-4 p-md-5 rounded shadow-sm border">
                     <h3 className="mb-4 text-primary fw-semibold">📬 Notifications</h3>
@@ -69,8 +69,8 @@ function Notifications() {
                                     </p>
                                     <p className="mb-1">
                                         <strong>Deadline:</strong>{' '}
-                                        {note.rfq?.deadline
-                                            ? new Date(note.rfq.deadline).toLocaleDateString()
+                                        {note.rfq?.deadline || note.deadline
+                                            ? new Date(note.rfq?.deadline || note.deadline).toLocaleDateString()
                                             : 'N/A'}
                                     </p>
                                     <p className="text-muted mt-2" style={{ fontSize: '0.85rem' }}>

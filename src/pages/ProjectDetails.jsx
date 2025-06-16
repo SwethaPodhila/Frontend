@@ -11,7 +11,7 @@ const stateList = [
   "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
   "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
   "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi"
-];
+]; 
 
 const stageOptions = [
   "planning", "execution", "testing", "completed", "on hold", "cancelled"
