@@ -55,7 +55,7 @@ function UserDashboard() {
               </div>
               <button
                 className="btn btn-primary d-flex align-items-center"
-                onClick={() => navigate(`/rfq/${id}`)}
+                onClick={() => navigate(`/CreateProject/${id}`)}
               >
                 <i className="bi bi-plus-circle me-2 fs-5"></i> Add New Project
               </button>
@@ -112,7 +112,7 @@ function UserDashboard() {
                 color: "#6c757d",
                 bg: "rgba(108, 117, 125, 0.1)",
                 btnText: "Create",
-                path: `/rfq/${id}`,
+                path: `/CreateProject/${id}`,
               },
               {
                 title: "Notifications",

@@ -43,7 +43,7 @@ function Projects() {
             <button
               className="btn d-flex align-items-center"
               style={{ backgroundColor: '#ffc107', color: '#000' }}
-              onClick={() => navigate(`/rfq/${id}`)}
+              onClick={() => navigate(`/CreateProject/${id}`)}
             >
               <i className="bi bi-plus-circle me-2 fs-5"></i> Add New Project
             </button>
@@ -80,8 +80,8 @@ function Projects() {
 
                     <div className="card-body d-flex flex-column">
                       <h5 className="card-title mb-2" style={{ color: '#ffc107' }}>{rfq.title}</h5>
-                      <p className="mb-2"><strong>Deadline:</strong> {new Date(rfq.endDate).toLocaleDateString()}</p>
                       <p className="mb-2"><strong>Startdate:</strong> {new Date(rfq.startDate).toLocaleDateString()}</p>
+                      <p className="mb-2"><strong>Deadline:</strong> {new Date(rfq.endDate).toLocaleDateString()}</p>
                       <p className="mb-2"><strong>Location:</strong> {rfq.city}, {rfq.state}</p>
                       <p className="mb-2"><strong>Budget:</strong> {rfq.budget}</p>
                       <button

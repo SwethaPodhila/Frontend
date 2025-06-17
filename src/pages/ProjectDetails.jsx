@@ -4,6 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/Navbar';
 import UserFooter from '../components/UserFooter';
+import Select from 'react-select';
 import axios from 'axios';
 
 const stateList = [
@@ -26,12 +27,69 @@ function ProjectDetails() {
   const [showModal, setShowModal] = useState(false);
   const [cities, setCities] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
+
   const [previewUrls, setPreviewUrls] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+  const [imageInputs, setImageInputs] = useState([{ id: Date.now(), file: null }]);
 
 
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+
+  useEffect(() => {
+    const fixedMainCategoryIds = [
+      "683f33a2f2c5ff5195d26d81", // 🛠 Replace these with real main category IDs
+      "683f33aff2c5ff5195d26d84",
+      "683f33bbf2c5ff5195d26d87"
+    ];
+
+    const fetchSubCategories = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/category/subCategories', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mainCategoryIds: fixedMainCategoryIds })
+        });
+
+        const data = await res.json();
+
+        if (Array.isArray(data)) {
+          setSubCategories(data);
+        } else if (Array.isArray(data.subCategories)) {
+          setSubCategories(data.subCategories);
+        } else {
+          setSubCategories([]);
+        }
+      } catch (err) {
+        console.error('Failed to fetch subcategories', err);
+        setSubCategories([]);
+      }
+    };
+
+    fetchSubCategories();
+  }, []);
+
+  const handleSingleFileChange = (index, file) => {
+    const updatedInputs = [...imageInputs];
+    updatedInputs[index].file = file;
+
+    setImageInputs(updatedInputs);
+
+    // Update previews
+    const previews = updatedInputs
+      .filter(inp => inp.file)
+      .map(inp => URL.createObjectURL(inp.file));
+
+    setPreviewUrls(previews);
+  };
+
+  const handleAddImageInput = () => {
+    if (imageInputs.length >= 5) return;
+    setImageInputs(prev => [...prev, { id: Date.now(), file: null }]);
+  };
 
   // You can pass projectId if needed
   useEffect(() => {
@@ -97,12 +155,26 @@ function ProjectDetails() {
 
   const handleUpdate = async () => {
     const form = new FormData();
-    for (let key in formData) {
-      if (key !== 'images') form.append(key, formData[key]);
-    }
-    selectedFiles.forEach(file => form.append('images', file));
 
-    const res = await fetch(`https://backend-u1pk.onrender.com/project/updateProject/${id}`, {
+    for (let key in formData) {
+      if (key !== 'images') {
+        if (Array.isArray(formData[key])) {
+          form.append(key, JSON.stringify(formData[key])); // convert array to string
+        } else {
+          form.append(key, formData[key]);
+        }
+      }
+    }
+
+    // Add existing images if needed
+    form.append('existingImages', JSON.stringify(project.images || []));
+
+    // Add new images
+    imageInputs.forEach(input => {
+      if (input.file) form.append('images', input.file);
+    });
+
+    const res = await fetch(`http://localhost:5000/project/updateProject/${id}`, {
       method: 'PUT',
       headers: { Authorization: `Bearer ${token}` },
       body: form
@@ -135,12 +207,17 @@ function ProjectDetails() {
                 <div className="row g-4">
                   <Detail label="Title" value={getVal(project.title)} />
                   <Detail label="Budget" value={getVal(project.budget)} />
+                  <Detail
+                    label="Project Type"
+                    value={Array.isArray(project.subCategories) ? project.subCategories.join(', ') : 'N/A'}
+                  />
+
+                  <Detail label="Stage" value={getVal(project.stage)} />
                   <Detail label="City" value={getVal(project.city)} />
                   <Detail label="State" value={getVal(project.state)} />
                   <Detail label="Description" value={getVal(project.description)} />
                   <Detail label="Start Date" value={project.startDate ? new Date(project.startDate).toLocaleDateString() : 'N/A'} />
                   <Detail label="End Date" value={project.endDate ? new Date(project.endDate).toLocaleDateString() : 'N/A'} />
-                  <Detail label="Stage" value={getVal(project.stage)} />
                   <Detail label="Client Name" value={getVal(project.clientName)} />
                   <Detail label="Client Email" value={getVal(project.clientEmail)} />
                   <Detail label="Client Phone" value={getVal(project.clientPhone)} />
@@ -207,6 +284,38 @@ function ProjectDetails() {
               <InputField name="title" label="Title" value={formData.title} onChange={handleChange} />
               <InputField name="budget" label="Budget" value={formData.budget} onChange={handleChange} />
 
+              <div className="mb-3 col-md-6">
+                <label className="form-label">Project Type</label>
+                <Select
+                  isMulti
+                  options={
+                    Array.isArray(subCategories)
+                      ? subCategories.map(sub => ({
+                        value: sub.name,
+                        label: sub.name
+                      }))
+                      : []
+                  }
+                  value={selectedSubCategories}
+                  onChange={(selectedOptions) => {
+                    setSelectedSubCategories(selectedOptions);
+                    setFormData(prev => ({
+                      ...prev,
+                      subCategories: selectedOptions.map(opt => opt.value) // IMPORTANT ✅
+                    }));
+                  }}
+                />
+              </div>
+              <div className="col-md-6">
+                <label className="form-label">Project Stage</label>
+                <select className="form-select" name="stage" value={formData.stage || ''} onChange={handleChange}>
+                  <option value="">-- Select Stage --</option>
+                  {stageOptions.map((stage, idx) => (
+                    <option key={idx} value={stage}>{stage}</option>
+                  ))}
+                </select>
+              </div>
+
               <div className="col-md-6">
                 <label className="form-label">State</label>
                 <select className="form-select" name="state" value={formData.state || ''} onChange={handleStateChange}>
@@ -227,16 +336,6 @@ function ProjectDetails() {
                 </select>
               </div>
 
-              <div className="col-md-6">
-                <label className="form-label">Project Stage</label>
-                <select className="form-select" name="stage" value={formData.stage || ''} onChange={handleChange}>
-                  <option value="">-- Select Stage --</option>
-                  {stageOptions.map((stage, idx) => (
-                    <option key={idx} value={stage}>{stage}</option>
-                  ))}
-                </select>
-              </div>
-
               <InputField name="clientName" label="Client Name" value={formData.clientName} onChange={handleChange} />
               <InputField name="clientEmail" label="Client Email" value={formData.clientEmail} onChange={handleChange} />
               <InputField name="clientPhone" label="Client Phone" value={formData.clientPhone} onChange={handleChange} />
@@ -250,11 +349,31 @@ function ProjectDetails() {
               </div>
 
               <div className="col-12">
-                <label className="form-label">Upload Images</label>
-                <input type="file" className="form-control" accept="image/*" multiple onChange={handleFileChange} />
+                <label className="form-label d-block">Upload Images</label>
+                {imageInputs.map((input, idx) => (
+                  <div key={input.id} className="d-flex align-items-center mb-2 gap-3">
+                    <input
+                      type="file"
+                      className="form-control"
+                      accept="image/*"
+                      onChange={(e) => handleSingleFileChange(idx, e.target.files[0])}
+                    />
+                    {idx === imageInputs.length - 1 && imageInputs.length < 5 && (
+                      <Button variant="outline-primary" size="sm" onClick={handleAddImageInput}>
+                        ➕ Add Image
+                      </Button>
+                    )}
+                  </div>
+                ))}
+
                 <div className="mt-3 d-flex gap-2 flex-wrap">
                   {previewUrls.map((url, idx) => (
-                    <img key={idx} src={url} alt={`preview-${idx}`} style={{ width: '100px', height: '80px', objectFit: 'cover', borderRadius: '6px' }} />
+                    <img
+                      key={idx}
+                      src={url}
+                      alt={`preview-${idx}`}
+                      style={{ width: '100px', height: '80px', objectFit: 'cover', borderRadius: '6px' }}
+                    />
                   ))}
                 </div>
               </div>
