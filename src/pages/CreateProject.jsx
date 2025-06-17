@@ -49,7 +49,7 @@ function CreateProject() {
 
         const fetchSubCategories = async () => {
             try {
-                const res = await fetch('http://localhost:5000/category/subCategories', {
+                const res = await fetch('https://backend-u1pk.onrender.com/category/subCategories', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ mainCategoryIds: fixedMainCategoryIds })
@@ -79,7 +79,7 @@ function CreateProject() {
             return;
         }
 
-        fetch('http://localhost:5000/user/all/users')
+        fetch('https://backend-u1pk.onrender.com/user/all/users')
             .then(res => res.json())
             .then(users => {
                 const filtered = users.filter(u =>
@@ -93,7 +93,7 @@ function CreateProject() {
 
     useEffect(() => {
         if (!state) return;
-        fetch(`http://localhost:5000/admin/citiesByState?state=${encodeURIComponent(state)}`)
+        fetch(`https://backend-u1pk.onrender.com/admin/citiesByState?state=${encodeURIComponent(state)}`)
             .then(res => res.json())
             .then(data => setCities(data))
             .catch(err => {
@@ -137,7 +137,7 @@ function CreateProject() {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:5000/project/create', {
+            const res = await fetch('https://backend-u1pk.onrender.com/project/create', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`

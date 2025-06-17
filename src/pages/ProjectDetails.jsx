@@ -48,7 +48,7 @@ function ProjectDetails() {
 
     const fetchSubCategories = async () => {
       try {
-        const res = await fetch('http://localhost:5000/category/subCategories', {
+        const res = await fetch('https://backend-u1pk.onrender.com/category/subCategories', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ mainCategoryIds: fixedMainCategoryIds })
@@ -95,7 +95,7 @@ function ProjectDetails() {
   useEffect(() => {
     const fetchResponses = async () => {
       try {
-        const res = await axios.get('https://your-api-url.com/api/responses'); // 🔁 Replace with your actual API
+        const res = await axios.get('https://backend-u1pk.onrender.com/api/responses'); // 🔁 Replace with your actual API
         setResponses(res.data); // 🧠 Adjust if your API structure is different
         setLoading(false);
       } catch (err) {
@@ -174,7 +174,7 @@ function ProjectDetails() {
       if (input.file) form.append('images', input.file);
     });
 
-    const res = await fetch(`http://localhost:5000/project/updateProject/${id}`, {
+    const res = await fetch(`https://backend-u1pk.onrender.com/project/updateProject/${id}`, {
       method: 'PUT',
       headers: { Authorization: `Bearer ${token}` },
       body: form
