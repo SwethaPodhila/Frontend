@@ -32,10 +32,17 @@ function Rfq() {
 
     useEffect(() => {
         fetch('http://localhost:5000/category/sub-categories')
-            .then(res => res.json())
-            .then(setSubCategories)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Failed with status ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => setSubCategories(data))
             .catch(err => console.error('Failed to fetch subcategories', err));
+
     }, []);
+
 
     useEffect(() => {
         if (selectedSubCategories.length === 0) {

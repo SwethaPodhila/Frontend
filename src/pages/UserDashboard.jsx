@@ -115,6 +115,15 @@ function UserDashboard() {
                 path: `/CreateProject/${id}`,
               },
               {
+                title: "Create RFQ",
+                icon: "bi-clipboard-plus",
+                color: "#28a745",
+                bg: "rgba(40, 167, 69, 0.1)",
+                btnText: "Post",
+                path: `/CreateRfq/${id}`,  // adjust this route based on your actual routing setup
+              },
+
+              {
                 title: "Notifications",
                 icon: "bi-bell",
                 color: "#dc3545",
