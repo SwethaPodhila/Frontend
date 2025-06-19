@@ -23,6 +23,8 @@ import AboutUs from './pages/AboutUs';
 import ProjectDetails from './pages/ProjectDetails';
 import CreateProject from './pages/CreateProject';
 import CreateRfq from './pages/CreateRfq';
+import Rfq from './pages/Rfq';
+import RFQdetailed from './pages/RFQdetailed';
 const App = () => {
   return (
     <Router>
@@ -43,8 +45,8 @@ const App = () => {
           <Route path="/user-enquiry" element={<UserEnquiry />} />
           <Route path="/user-dashboard/:id" element={<UserDashboard />} />
           <Route path="/professionals/search" element={<SearchProfessions />} />
-          {/*   <Route path="/user-dashboard/:id" element={<UserDashboard />} />   /projectDetails/${rfq._id} 
-          <Route path="/rfq/:id" element={<Rfq />} />*/}
+          {/*   <Route path="/user-dashboard/:id" element={<UserDashboard />} />   /projectDetails/${rfq._id} */}
+          <Route path="/allRfq/:id" element={<Rfq />} />
           <Route path="/notifications/:id" element={<Notifications />} />
           <Route path="/admin/rfqs" element={<AdminRFQApprovals />} />
           <Route path="/admin/cities" element={<Cities />} />
@@ -52,6 +54,7 @@ const App = () => {
           <Route path="/projectDetails/:id" element={<ProjectDetails />} />
           <Route path="/CreateProject/:id" element={<CreateProject />} />
           <Route path="/createRfq/:id" element={<CreateRfq />} />
+          <Route path="/Rfqdetailed/:id" element={<RFQdetailed/>} />
 
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
         </Routes>

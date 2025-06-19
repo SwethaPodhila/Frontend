@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import UserFooter from '../components/UserFooter';
 
@@ -122,7 +121,14 @@ function UserDashboard() {
                 btnText: "Post",
                 path: `/CreateRfq/${id}`,  // adjust this route based on your actual routing setup
               },
-
+              {
+                title: "All RFQ's",
+                icon: "bi-clipboard-plus",
+                color: "#28a745",
+                bg: "rgba(118, 47, 233, 0.1)",
+                btnText: "Post",
+                path: `/allRfq/${id}`,  // adjust this route based on your actual routing setup
+              },
               {
                 title: "Notifications",
                 icon: "bi-bell",
@@ -163,14 +169,7 @@ function UserDashboard() {
                 btnText: "Browse",
                 path: `/files/${id}`,
               },
-              {
-                title: "Chat",
-                icon: "bi-chat-dots",
-                color: "#198754",
-                bg: "rgba(25, 135, 84, 0.1)",
-                btnText: "Message",
-                path: `/chat/${id}`,
-              },
+             
               {
                 title: "Schedule",
                 icon: "bi-calendar-check",

@@ -24,7 +24,7 @@ function Login() {
 
             if (response.ok) {
                 localStorage.setItem('token', data.token);     // ✅ JWT saved
-                alert('Login successful!');
+               // alert('Login successful!');
                 localStorage.setItem('userId', data.user.id);
                 navigate(`/user-dashboard/${data.user.id}`);
                 // ✅ Navigate to Dashboard
